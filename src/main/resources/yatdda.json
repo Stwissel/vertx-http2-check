@@ -1,0 +1,317 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "yatdda",
+        "version": "1.0.0",
+        "description": "Yet another to do application",
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "paths": {
+        "/tasks": {
+            "summary": "Path used to manage the list of tasks.",
+            "description": "The REST endpoint/path used to list and create zero or more `Task` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+            "get": {
+                "tags": [
+                    "data"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successful response - returns an array of `Task` entities."
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": [
+                        ]
+                    }
+                ],
+                "operationId": "gettasks",
+                "summary": "List All tasks",
+                "description": "Gets a list of all `Task` entities."
+            },
+            "post": {
+                "requestBody": {
+                    "description": "A new `Task` to be created.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Task"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "data"
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        },
+                        "description": "Successful response."
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": [
+                        ]
+                    }
+                ],
+                "operationId": "createTask",
+                "summary": "Create a Task",
+                "description": "Creates a new instance of a `Task`."
+            }
+        },
+        "/tasks/{taskId}": {
+            "summary": "Path used to manage a single Task.",
+            "description": "The REST endpoint/path used to get, update, and delete single instances of an `Task`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+            "get": {
+                "tags": [
+                    "data"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        },
+                        "description": "Successful response - returns a single `Task`."
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": [
+                        ]
+                    }
+                ],
+                "operationId": "getTask",
+                "summary": "Get a Task",
+                "description": "Gets the details of a single instance of a `Task`."
+            },
+            "put": {
+                "requestBody": {
+                    "description": "Updated `Task` information.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Task"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "data"
+                ],
+                "responses": {
+                    "202": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        },
+                        "description": "Successful response."
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": [
+                        ]
+                    }
+                ],
+                "operationId": "updateTask",
+                "summary": "Update a Task",
+                "description": "Updates an existing `Task`."
+            },
+            "delete": {
+                "responses": {
+                    "204": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        },
+                        "description": "Successful response."
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": [
+                        ]
+                    }
+                ],
+                "operationId": "deleteTask",
+                "summary": "Delete a Task",
+                "description": "Deletes an existing `Task`."
+            },
+            "parameters": [
+                {
+                    "name": "taskId",
+                    "description": "A unique identifier for a `Task`.",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/auth": {
+            "summary": "Authenticate",
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/authRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "data"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/authResult"
+                                }
+                            }
+                        },
+                        "description": "Success in Login"
+                    }
+                },
+                "security": [
+                    {
+
+                    }
+                ],
+                "operationId": "authLogin",
+                "summary": "Login to get bearer"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "title": "Root Type for Task",
+                "description": "Simple Task",
+                "type": "object",
+                "properties": {
+                    "Subject": {
+                        "type": "string"
+                    },
+                    "CreationDate": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "Status": {
+                        "type": "string"
+                    },
+                    "LastChanged": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "InCharge": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Unique Id for task",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "Subject": "Clean the house",
+                    "CreationDate": "2020-10-01T14:40Z",
+                    "Status": "new",
+                    "LastChanged": "2020-10-01T14:40Z",
+                    "InCharge": "John Doe"
+                }
+            },
+            "authRequest": {
+                "title": "Root Type for authRequest",
+                "description": "User and password",
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "username": "John Doe",
+                    "password": "password"
+                }
+            },
+            "authResult": {
+                "title": "Root Type for authResult",
+                "description": "did we get in?",
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "bearer": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "username": "John Doe",
+                    "bearer": "long bearer"
+                }
+            }
+        },
+        "securitySchemes": {
+            "jwt": {
+                "scheme": "bearer",
+                "type": "http",
+                "description": "Token"
+            }
+        }
+    },
+    "security": [
+        {
+            "jwt": [
+            ]
+        },
+        {
+
+        }
+    ],
+    "tags": [
+        {
+            "name": "data",
+            "description": ""
+        }
+    ]
+}

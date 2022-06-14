@@ -1,0 +1,36 @@
+= Troubleshooting HTTP/2
+
+image:https://img.shields.io/badge/vert.x-4.3.1-purple.svg[link="https://vertx.io"]
+
+To run your application:
+
+- get the password for the pfx file or replace it with your own
+- set the variable `SWITCH_ON_TLS` to `true` to see the problem or `false` to se regular operation
+- add `frascati.projectkeep.local` to your `host` file with `127.0.0.1`
+
+```
+./mvnw clean compile exec:java
+```
+
+== Issue observed
+
+Send this:
+
+```
+curl -v -k 'https://frascati.projectkeep.local:8888/api/auth' \
+--header 'Content-Type: application/json' \
+--data-raw '{ "username": "John Doe", "password": "password" }'
+```
+
+and the request will fail
+
+
+Send this:
+
+```
+curl -v -k --http1.1 'https://frascati.projectkeep.local:8888/api/auth' \
+--header 'Content-Type: application/json' \
+--data-raw '{ "username": "John Doe", "password": "password" }'
+```
+
+and the request works.
